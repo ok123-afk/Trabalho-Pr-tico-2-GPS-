@@ -812,7 +812,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Global Modal Handlers
+
 function openModal(id) {
     const m = document.getElementById(id);
     if (m) m.classList.add('active');
@@ -823,11 +823,11 @@ function closeModal(id) {
     if (m) m.classList.remove('active');
 }
 
-// Attach globally just in case inline handlers complain about scope
+
 window.openModal = openModal;
 window.closeModal = closeModal;
 
-// Close Modal on outside click
+
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('modal-overlay')) {
         e.target.classList.remove('active');
@@ -867,7 +867,7 @@ function initCharts() {
     }
 
     if (statusCtx && typeof Chart !== 'undefined') {
-        // Calculate real status from data
+        
         let stats = { 'Entregue': 0, 'Na Distribuição': 0, 'Pendente': 0, 'Cancelada': 0 };
         encData.forEach(e => {
             if(stats[e.estado] !== undefined) stats[e.estado]++;
