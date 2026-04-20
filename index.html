@@ -493,7 +493,7 @@ body {
     to { opacity: 0; transform: translateY(-10px); }
 }
 
-/* Modal System */
+
 .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -552,7 +552,7 @@ body {
     color: var(--danger-color); 
 }
 
-/* Responsive basics */
+
 @media (max-width: 1024px) {
     .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
     .panels-grid { grid-template-columns: 1fr; }
@@ -615,7 +615,7 @@ body {
         <!-- Main Content -->
         <main class="main-content">
 
-            <!-- Dynamic Views (Integrated directly) -->
+            
             <div class="views-container" id="views-container">
                 
         <div class="view-section active">
@@ -682,15 +682,14 @@ body {
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        //app.js
-// --- AUTH CHECK ---
+
 if (window.location.pathname.indexOf('login.html') === -1) {
     if (localStorage.getItem('logitrack_session') !== 'active') {
         window.location.href = 'login.html';
     }
 }
 
-// --- DATA PERSISTENCE ---
+
 const DEFAULT_DATA = {
     clientes: [
         { nome: 'Maria João Silva', tipo: 'Particular', email: 'maria.silva@email.com', encomendas: 2 },
@@ -710,7 +709,7 @@ function getLogiData() {
     const d = localStorage.getItem('logitrack_data');
     if(d) return JSON.parse(d);
     
-    // First time load
+
     localStorage.setItem('logitrack_data', JSON.stringify(DEFAULT_DATA));
     return DEFAULT_DATA;
 }
@@ -734,14 +733,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Set active navbar item
+
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-item').forEach(item => {
         const h = item.getAttribute('href');
         if (h === currentPath) item.classList.add('active');
     });
 
-    // Global Search Logic
+
     const searchInput = document.querySelector('.search-bar input');
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
@@ -754,7 +753,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Global Modal Handlers
+
 function openModal(id) {
     const m = document.getElementById(id);
     if (m) m.classList.add('active');
@@ -765,11 +764,11 @@ function closeModal(id) {
     if (m) m.classList.remove('active');
 }
 
-// Attach globally just in case inline handlers complain about scope
+
 window.openModal = openModal;
 window.closeModal = closeModal;
 
-// Close Modal on outside click
+
 document.addEventListener('click', (e) => {
     if (e.target.classList.contains('modal-overlay')) {
         e.target.classList.remove('active');
@@ -809,7 +808,7 @@ function initCharts() {
     }
 
     if (statusCtx && typeof Chart !== 'undefined') {
-        // Calculate real status from data
+
         let stats = { 'Entregue': 0, 'Na Distribuição': 0, 'Pendente': 0, 'Cancelada': 0 };
         encData.forEach(e => {
             if(stats[e.estado] !== undefined) stats[e.estado]++;
