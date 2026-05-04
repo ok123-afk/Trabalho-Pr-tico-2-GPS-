@@ -620,25 +620,32 @@ body {
                 
         <div class="view-section active">
             <div class="page-header">
-                <h1 class="page-title">Recursos (Veículos)</h1>
-                <p class="page-subtitle">Gestão de frota (Ref: 4.5)</p>
+                <h1 class="page-title">Comunicação com Cliente</h1>
+                <p class="page-subtitle">Notificações e Email/SMS (Ref: 4.8 - Obrigatório)</p>
             </div>
-            <div class="panel-card">
-                <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Matrícula</th>
-                                <th>Tipo</th>
-                                <th>Estado</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><td>AB-12-CD</td><td>Carrinha de Carga</td><td><span class="status entregue">Operacional</span></td><td><button class="btn btn-primary" style="padding: 4px 8px; font-size:12px; background:var(--warning-color); color:black; border:none;" onclick="showSimulatedToast('Alerta de Revisão enviado à oficina para o chassi AB-12-CD.')">Agendar Revisão</button></td></tr>
-                            <tr><td>XY-99-ZZ</td><td>Motorizada</td><td><span class="status distribuicao">En Uso</span></td><td><button class="btn btn-primary" style="padding: 4px 8px; font-size:12px; background:var(--warning-color); color:black; border:none;" onclick="showSimulatedToast('Alerta de Revisão enviado à oficina para o chassi XY-99-ZZ.')">Agendar Revisão</button></td></tr>
-                        </tbody>
-                    </table>
+            <div class="panels-grid">
+                <div class="panel-card">
+                    <h2 class="panel-title">Simular Envio de Notificação</h2>
+                    <div class="form-group">
+                        <label>Cliente / Encomenda ID</label>
+                        <input type="text" class="form-control" value="#10023 - TechStore" readonly>
+                    </div>
+                    <div class="form-group" style="margin-top: 15px;">
+                        <label>Tipo de Mensagem</label>
+                        <select class="form-control">
+                            <option>Notificação de Estado (A caminho)</option>
+                            <option>Aviso de Atraso</option>
+                            <option>Confirmação de Entrega</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" onclick="simulateClientComms()" style="margin-top: 15px;">Enviar Email / SMS</button>
+                </div>
+                <div class="panel-card">
+                    <h2 class="panel-title">Histórico Recente</h2>
+                    <div style="font-size: 13px; margin-top: 15px; border-left: 2px solid var(--border-color); padding-left: 15px;">
+                        <p style="margin-bottom: 10px;"><strong>Hoje, 10:50:</strong> SMS enviado para #10023 - "A sua encomenda já se encontra em distribuição."</p>
+                        <p style="margin-bottom: 10px;"><strong>Hoje, 09:15:</strong> Email enviado para #10022 - "Encomenda entregue com sucesso."</p>
+                    </div>
                 </div>
             </div>
         </div>
