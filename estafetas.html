@@ -1,0 +1,657 @@
+﻿<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogiTrack - Gestão Inteligente de Entregas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+    --bg-color-main: #f4f7fe;
+    --bg-color-surface: #ffffff;
+    --sidebar-bg: #111c44;
+    --sidebar-hover: #1a2753;
+    --sidebar-text: #a0aec0;
+    --sidebar-active: #ffffff;
+    --text-primary: #2b3674;
+    --text-secondary: #a3aed1;
+    --accent-color: #4318ff;
+    --accent-hover: #3311db;
+    --success-color: #05cd99;
+    --warning-color: #ffce20;
+    --danger-color: #ee5d50;
+    --border-color: #e2e8f0;
+    --shadow-soft: 0px 4px 20px rgba(0, 0, 0, 0.05);
+    --border-radius-lg: 16px;
+    --border-radius-md: 10px;
+    --transition-speed: 0.3s;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color-main);
+    color: var(--text-primary);
+    min-height: 100vh;
+}
+
+/* Base Layout */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    width: 100vw;
+    background-color: var(--bg-color-main);
+}
+
+/* Unified Navbar */
+.navbar {
+    width: 100%;
+    background: #ffffff;
+    padding: 10px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    z-index: 100;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-decoration: none;
+}
+
+.logo i {
+    color: var(--accent-color);
+    font-size: 24px;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 5px;
+}
+
+.nav-item {
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-weight: 500;
+    border-radius: 8px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.nav-item i {
+    font-size: 16px;
+}
+
+.nav-item:hover {
+    color: var(--accent-color);
+    background-color: rgba(67, 24, 255, 0.05);
+}
+
+.nav-item.active {
+    color: var(--accent-color);
+    background-color: rgba(67, 24, 255, 0.1);
+    font-weight: 600;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.search-mini {
+    background-color: var(--bg-color-main);
+    border-radius: 20px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 400px;
+}
+
+.search-mini input {
+    border: none;
+    outline: none;
+    background: transparent;
+    width: 100%;
+    font-size: 13px;
+    color: var(--text-primary);
+}
+
+.search-container-full {
+    width: 100%;
+    order: 3;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    border-top: 1px solid var(--border-color);
+}
+
+.user-nav-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-left: 20px;
+    border-left: 1px solid var(--border-color);
+}
+
+.logout-btn {
+    color: var(--danger-color);
+    background: rgba(238, 93, 80, 0.1);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.logout-btn:hover {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Remove old topbar styles */
+.topbar { display: none; }
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--danger-color);
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid var(--bg-color-main);
+}
+
+/* Views Container */
+.views-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px 30px 40px 30px;
+}
+
+.view-section {
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.view-section.active {
+    display: block;
+}
+
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Reusable Components */
+.page-header {
+    margin-bottom: 24px;
+}
+
+.page-title {
+    font-size: 32px;
+    font-weight: 700;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+/* Cards & Widgets */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background-color: var(--bg-color-surface);
+    border-radius: var(--border-radius-lg);
+    padding: 20px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: rgba(67, 24, 255, 0.1);
+    color: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+}
+
+.stat-info .stat-label {
+    font-size: 14px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.stat-info .stat-value {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Charts and Panels */
+.panels-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.panel-card {
+    background-color: var(--bg-color-surface);
+    border-radius: var(--border-radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-soft);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chart-container {
+    flex: 1;
+    min-height: 280px;
+    position: relative;
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.panel-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+/* Tables */
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.data-table th, .data-table td {
+    padding: 14px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.data-table th {
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.data-table td {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.data-table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.data-table tbody tr:hover {
+    background-color: rgba(67, 24, 255, 0.02);
+}
+
+/* Status Badges */
+.status {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.status.entregue {
+    background-color: rgba(5, 205, 153, 0.1);
+    color: var(--success-color);
+}
+
+.status.pendente {
+    background-color: rgba(255, 206, 32, 0.1);
+    color: #cca300;
+}
+
+.status.distribuicao {
+    background-color: rgba(67, 24, 255, 0.1);
+    color: var(--accent-color);
+}
+
+.status.cancelada {
+    background-color: rgba(238, 93, 80, 0.1);
+    color: var(--danger-color);
+}
+
+/* Buttons */
+.btn {
+    padding: 10px 20px;
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    font-family: inherit;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 4px 10px rgba(67, 24, 255, 0.2);
+}
+
+.btn-icon {
+    padding: 6px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 16px;
+    transition: color 0.2s;
+}
+
+.btn-icon:hover {
+    color: var(--accent-color);
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+/* Toast System */
+.toast-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    background-color: white;
+    border-radius: var(--border-radius-md);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 300px;
+    border-left: 4px solid var(--accent-color);
+    animation: slideInRight 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+    to { opacity: 0; transform: translateY(-10px); }
+}
+
+/* Modal System */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    backdrop-filter: blur(3px);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.modal {
+    background: var(--bg-color-surface);
+    border-radius: var(--border-radius-lg);
+    width: 450px;
+    max-width: 90%;
+    padding: 30px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+    transform: translateY(20px);
+    transition: transform 0.3s;
+}
+
+.modal-overlay.active .modal {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.modal-title { 
+    font-size: 20px; 
+    font-weight: 700; 
+}
+
+.close-btn { 
+    background: none; 
+    border: none; 
+    font-size: 20px; 
+    cursor: pointer; 
+    color: var(--text-secondary); 
+}
+
+.close-btn:hover { 
+    color: var(--danger-color); 
+}
+
+/* Responsive basics */
+@media (max-width: 1024px) {
+    .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+    .panels-grid { grid-template-columns: 1fr; }
+}
+
+        .nav-item { text-decoration: none; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Unified Navbar -->
+        <nav class="navbar">
+            <div class="navbar-left">
+                <a href="index.html" class="logo">
+                    <i class="fa-solid fa-truck-fast"></i>
+                    <span>LogiTrack</span>
+                </a>
+                <div class="nav-list">
+                    <a href="index.html" class="nav-item">
+                        <i class="fa-solid fa-chart-pie"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="clientes.html" class="nav-item">
+                        <i class="fa-solid fa-users"></i>
+                        <span>Clientes</span>
+                    </a>
+                    <a href="encomendas.html" class="nav-item">
+                        <i class="fa-solid fa-box"></i>
+                        <span>Encomendas</span>
+                    </a>
+                    <a href="entregas.html" class="nav-item">
+                        <i class="fa-solid fa-route"></i>
+                        <span>Entregas</span>
+                    </a>
+                    <a href="estafetas.html" class="nav-item">
+                        <i class="fa-solid fa-motorcycle"></i>
+                        <span>Estafetas</span>
+                    </a>
+                    <a href="recursos.html" class="nav-item">
+                        <i class="fa-solid fa-truck"></i>
+                        <span>Recursos</span>
+                    </a>
+                    <a href="comunicacao.html" class="nav-item">
+                        <i class="fa-solid fa-comment-dots"></i>
+                        <span>Comunicação</span>
+                    </a>
+                </div>
+            </div>
+            <div class="navbar-right">
+                <div class="user-nav-profile">
+                    <img src="https://i.pravatar.cc/150?img=11" alt="Admin" class="avatar" style="width: 32px; height: 32px; border: 2px solid var(--accent-color);">
+                    <button class="logout-btn" onclick="logout()">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Sair
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+
+            <!-- Dynamic Views (Integrated directly) -->
+            <div class="views-container" id="views-container">
+                
+        <div class="view-section active">
+            <div class="page-header" style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h1 class="page-title">Gestão de Estafetas</h1>
+                    <p class="page-subtitle">Disponibilidade e perfis (Ref: 4.4)</p>
+                </div>
+            </div>
+            <div class="dashboard-grid">
+                 <div class="panel-card" style="text-align: center;">
+                    <img src="https://i.pravatar.cc/150?img=33" alt="" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; border: 3px solid var(--accent-color);">
+                    <h3>Carlos R.</h3>
+                    <p class="status distribuicao" style="display: inline-block; margin-top: 10px;">Ativo (Rota Norte)</p>
+                 </div>
+                 <div class="panel-card" style="text-align: center;">
+                    <img src="https://i.pravatar.cc/150?img=47" alt="" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; border: 3px solid var(--success-color);">
+                    <h3>Ana S.</h3>
+                    <p class="status entregue" style="display: inline-block; margin-top: 10px;">Disponível</p>
+                 </div>
+                 <div class="panel-card" style="text-align: center;">
+                    <img src="https://i.pravatar.cc/150?img=12" alt="" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; border: 3px solid var(--border-color);">
+                    <h3>Miguel T.</h3>
+                    <p class="status cancelada" style="display: inline-block; margin-top: 10px;">Férias</p>
+                 </div>
+            </div>
+        </div>
+    
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast Notifications Container -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
