@@ -649,7 +649,7 @@ body {
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal pop up -->
         <div class="modal-overlay" id="clienteModal">
             <div class="modal">
                 <div class="modal-header">
@@ -724,20 +724,20 @@ body {
         </main>
     </div>
 
-    <!-- Toast Notifications Container -->
+    <!-- Container de notificação -->
     <div id="toast-container" class="toast-container"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         //app.js
-// --- AUTH CHECK ---
+// --- autenticação ---
 if (window.location.pathname.indexOf('login.html') === -1) {
     if (localStorage.getItem('logitrack_session') !== 'active') {
         window.location.href = 'login.html';
     }
 }
 
-// --- DATA PERSISTENCE ---
+// --- Dados persistentes ---
 const DEFAULT_DATA = {
     clientes: [
         { nome: 'Maria João Silva', tipo: 'Particular', email: 'maria.silva@email.com', encomendas: 2 },
@@ -781,24 +781,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Set active navbar item
+    // Item menu selecionado
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-item').forEach(item => {
         const h = item.getAttribute('href');
         if (h === currentPath) item.classList.add('active');
     });
 
-    // Global Search Logic
-    const searchInput = document.querySelector('.search-bar input');
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            document.querySelectorAll('.data-table tbody tr').forEach(row => {
-                const text = row.textContent.toLowerCase();
-                row.style.display = text.includes(query) ? '' : 'none';
-            });
-        });
-    }
+    
 });
 
 // Global Modal Handlers
