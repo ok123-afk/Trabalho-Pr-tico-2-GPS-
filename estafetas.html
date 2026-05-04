@@ -552,7 +552,7 @@ body {
     color: var(--danger-color); 
 }
 
-/* Responsive basics */
+/* Bases Responsivas */
 @media (max-width: 1024px) {
     .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
     .panels-grid { grid-template-columns: 1fr; }
@@ -563,7 +563,7 @@ body {
 </head>
 <body>
     <div class="app-container">
-        <!-- Unified Navbar -->
+        <!-- Navbar -->
         <nav class="navbar">
             <div class="navbar-left">
                 <a href="index.html" class="logo">
@@ -615,7 +615,7 @@ body {
         <!-- Main Content -->
         <main class="main-content">
 
-            <!-- Dynamic Views (Integrated directly) -->
+            <!-- Vista dinamica (Integrated directly) -->
             <div class="views-container" id="views-container">
                 
         <div class="view-section active">
@@ -648,20 +648,20 @@ body {
         </main>
     </div>
 
-    <!-- Toast Notifications Container -->
+    <!-- Container de notificações -->
     <div id="toast-container" class="toast-container"></div>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         //app.js
-// --- AUTH CHECK ---
+// --- Autenticação ---
 if (window.location.pathname.indexOf('login.html') === -1) {
     if (localStorage.getItem('logitrack_session') !== 'active') {
         window.location.href = 'login.html';
     }
 }
 
-// --- DATA PERSISTENCE ---
+// --- Dados persistentes ---
 const DEFAULT_DATA = {
     clientes: [
         { nome: 'Maria João Silva', tipo: 'Particular', email: 'maria.silva@email.com', encomendas: 2 },
@@ -705,7 +705,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Set active navbar item
+    // Items da navbar selecionados
     const currentPath = window.location.pathname.split('/').pop() || 'index.html';
     document.querySelectorAll('.nav-item').forEach(item => {
         const h = item.getAttribute('href');
